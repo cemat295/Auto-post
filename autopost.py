@@ -4,13 +4,10 @@ import json, time, threading, os, requests
 app = Flask(__name__)
 CONFIG_PATH = "config.json"
 posting_active = False
-start_time = time.time()
-
 config = {
     "token": "",
     "use_webhook": False,
     "webhook_url": "",
-    "log_webhook": "",
     "channels": []
 }
 
@@ -29,29 +26,18 @@ def save_config():
     with open(CONFIG_PATH, "w") as f:
         json.dump(config, f, indent=4)
 
-def get_uptime():
-    uptime = int(time.time() - start_time)
-    h, m, s = uptime // 3600, (uptime % 3600) // 60, uptime % 60
-    return f"{h}h {m}m {s}s"
-
-def send_log_to_webhook(channel_id, message, success=True):
-    if not config.get("log_webhook"): return
-    embed = {
-        "title": "Auto Message Log",
-        "color": 0x00ff00 if success else 0xff0000,
-        "fields": [
-            {"name": "⚠️ Information", "value": f"**Username:** `{os.getenv('USER') or 'unknown'}`\n**Display Name:** MRRAY COMMUNITY"},
-            {"name": "🧿 Discord Server", "value": f"<#{channel_id}>"},
-            {"name": "🟢 Status", "value": "All messages sent successfully" if success else "Failed to send message"},
-            {"name": "🕐 Time", "value": f"**App Running Time:** {get_uptime()}\n**Current Time:** {time.strftime('%I:%M:%S %p')}"},
-        ],
-        "footer": {"text": "Auto Post Message | Creator: @MrRayliegh"},
-        "thumbnail": {"url": "https://i.imgur.com/bJp5GJC.png"}
-    }
-    try:
-        requests.post(config["log_webhook"], json={"embeds": [embed]})
-    except Exception as e:
-        print(f"[LOG WEBHOOK ERROR] {e}")
+def send_log(message):
+    if config["use_webhook"] and config["webhook_url"]:
+        try:
+            requests.post(config["webhook_url"], json={
+                "embeds": [{
+                    "title": "AutoPost Log",
+                    "description": message,
+                    "color": 5814783
+                }]
+            })
+        except Exception as e:
+            print(f"[LOG ERROR] {e}")
 
 @app.route("/", methods=["GET"])
 def index():
@@ -59,9 +45,8 @@ def index():
 
 @app.route("/save-config", methods=["POST"])
 def save():
-    token = request.form.get("token")
-    webhook_url = request.form.get("webhook_url")
-    log_webhook = request.form.get("log_webhook")
+    token = request.form.get("token").strip()
+    webhook_url = request.form.get("webhook_url").strip()
     use_webhook = True if request.form.get("use_webhook") else False
 
     channel_id = request.form.get("channel_id")
@@ -76,9 +61,9 @@ def save():
     interval = hours * 3600 + minutes * 60 + seconds
     action = request.form.get("action")
 
-    if token: config["token"] = token
+    if token:
+        config["token"] = token
     config["webhook_url"] = webhook_url
-    config["log_webhook"] = log_webhook
     config["use_webhook"] = use_webhook
 
     if action == "add" and channel_id and message:
@@ -115,8 +100,7 @@ def stop():
 
 @app.route("/test-webhook", methods=["POST"])
 def test_webhook():
-    if config["webhook_url"]:
-        requests.post(config["webhook_url"], json={"content": "Test Webhook from Controller"})
+    send_log("Test webhook log berhasil dikirim.")
     return redirect("/")
 
 def auto_post():
@@ -125,23 +109,24 @@ def auto_post():
             if not posting_active:
                 break
             try:
-                if config["use_webhook"] and config["webhook_url"]:
-                    r = requests.post(config["webhook_url"], json={"content": ch["message"]})
-                    send_log_to_webhook(ch["id"], ch["message"], r.status_code == 204)
+                url = f"https://discord.com/api/v10/channels/{ch['id']}/messages"
+                headers = {
+                    "Authorization": config["token"].strip(),
+                    "Content-Type": "application/json"
+                }
+                data = {
+                    "content": ch["message"]
+                }
+                res = requests.post(url, headers=headers, json=data)
+                if res.status_code == 200 or res.status_code == 204:
+                    send_log(f"Pesan berhasil dikirim ke <#{ch['id']}>.")
                 else:
-                    url = f"https://discord.com/api/v9/channels/{ch['id']}/messages"
-                    headers = {
-                        "Authorization": config["token"],
-                        "Content-Type": "application/json"
-                    }
-                    data = { "content": ch["message"] }
-                    res = requests.post(url, headers=headers, json=data)
-                    print(f"[{res.status_code}] Posted to {ch['id']}: {ch['message']}")
-                    send_log_to_webhook(ch["id"], ch["message"], res.status_code == 200)
+                    send_log(f"Gagal kirim ke <#{ch['id']}>: [{res.status_code}] {res.text}")
             except Exception as e:
-                print(f"Error posting to {ch['id']}: {e}")
+                send_log(f"Error kirim ke <#{ch['id']}>: {e}")
             time.sleep(ch["interval"])
         time.sleep(1)
+
 
 html_template = '''
 <!DOCTYPE html>
