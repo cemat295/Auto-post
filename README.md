@@ -27,6 +27,7 @@ python autopost.py
 **How to get discord account token?**
 
 [How to get token on pc](https://youtu.be/LnBnm_tZlyU?si=J3wSpuRaXqI5ycUj)
+
 [How to get token on kiwi browser (android)](https://youtu.be/OvOKuKZwuwQ?si=LCoqhtTlKJv74VxG)
 
 **Open in browser:**
