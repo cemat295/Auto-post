@@ -18,7 +18,7 @@ def load_config():
             try:
                 config = json.load(f)
             except json.JSONDecodeError:
-                print("[ERROR] config.json rusak.")
+                print("[ERROR] config.json kaya kontol.")
     else:
         save_config()
 
@@ -119,11 +119,11 @@ def auto_post():
                 }
                 res = requests.post(url, headers=headers, json=data)
                 if res.status_code == 200 or res.status_code == 204:
-                    send_log(f"Pesan berhasil dikirim ke <#{ch['id']}>.")
+                    send_log(f"Pesan berhasil dikirim ke? <#{ch['id']}>.")
                 else:
-                    send_log(f"Gagal kirim ke <#{ch['id']}>: [{res.status_code}] {res.text}")
+                    send_log(f"Gagal kontol kirim ke <#{ch['id']}>: [{res.status_code}] {res.text}")
             except Exception as e:
-                send_log(f"Error kirim ke <#{ch['id']}>: {e}")
+                send_log(f"Error kontol kirim ke <#{ch['id']}>: {e}")
             time.sleep(ch["interval"])
         time.sleep(1)
 
