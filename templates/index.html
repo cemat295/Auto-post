@@ -1,0 +1,58 @@
+<!DOCTYPE html>                                                                   <html>
+<head>                                                                                <title>Auto Poster Controller</title>
+    <style>                                                                               body { font-family: Arial; padding: 20px; }
+        .section { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; }
+        .section-title { font-weight: bold; margin-bottom: 10px; }                        input[type="text"], input[type="number"], textarea { width: 100%; padding:
+ 5px; margin-top: 5px; }
+        button { padding: 10px 20px; margin: 5px; }
+    </style>                                                                      </head>
+<body>
+    <h1>Auto Poster</h1>
+
+    <form method="POST" action="/save-config">
+        <div class="section">
+            <div class="section-title">Discord Token Settings</div>                           <input type="password" name="token" placeholder="Discord Token" value=
+"{{ config.token }}" id="tokenInput">
+            <br><input type="checkbox" onclick="toggleToken()"> Show Token
+        </div>                                                                    
+        <div class="section">
+            <div class="section-title">Post Settings</div>
+            <input type="text" name="channel_id" placeholder="Channel ID">
+            <textarea name="message" placeholder="Message..."></textarea>
+            Interval:<br>
+            <input type="number" name="hours" placeholder="Hours" min="0">
+            <input type="number" name="minutes" placeholder="Minutes" min="0">                <input type="number" name="seconds" placeholder="Seconds" min="0"><br>
+<br>
+            <button name="action" value="add">Add Channel</button>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Webhook Settings</div>                                 <input type="checkbox" name="use_webhook" {% if config.use_webhook %}c
+hecked{% endif %}> Use Webhook<br>                                                            <input type="text" name="webhook_url" placeholder="Webhook URL" value=
+"{{ config.webhook_url }}">                                                                   <br><br><button formaction="/test-webhook" formmethod="post">Test Webh
+ook</button>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Channel Config</div>
+            <pre>{{ config.channels | tojson(indent=2) }}</pre>                               <button formaction="/load-config" formmethod="post">Load Config</butto
+n>                                                                                            <button type="submit">Save Config</button>
+        </div>
+    </form>
+
+    <form method="POST" action="/start">
+        <button style="background-color: lightgreen;">Start</button>
+    </form>
+
+    <form method="POST" action="/stop">
+        <button style="background-color: salmon;">Stop</button>
+    </form>
+
+    <script>
+        function toggleToken() {
+            var x = document.getElementById("tokenInput");
+            x.type = x.type === "password" ? "text" : "password";
+        }
+    </script>
+</body>
+</html>
