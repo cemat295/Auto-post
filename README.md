@@ -1,2 +1,1 @@
 # Auto-post
-Autopost discord
