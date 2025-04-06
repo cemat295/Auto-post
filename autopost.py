@@ -15,7 +15,12 @@ def load_config():
     global config
     if os.path.exists(CONFIG_PATH):
         with open(CONFIG_PATH, "r") as f:
-            config = json.load(f)
+            try:
+                config = json.load(f)
+            except json.JSONDecodeError:
+                print("[ERROR] config.json is broken. Using default config.")
+    else:
+        save_config()
 
 def save_config():
     with open(CONFIG_PATH, "w") as f:
