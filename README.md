@@ -6,7 +6,7 @@ This project auto-posts messages to Discord channels with interval and optional 
 
 
 
-## Setup Instructions
+## Setup Instructions on termux
 
 **Install Termux:**
 [Download Termux here](https://f-droid.org/en/packages/com.termux/)
@@ -33,6 +33,47 @@ python autopost.py
 **Open in browser:**
 
 Visit `http://localhost:5000` from your phone browser (while Termux is running).
+
+## Setup Instructions on windows
+
+**Install Python**
+
+Download from: 
+[Python](https://python.org)
+
+**During installation, make sure to check “Add Python to PATH”**
+
+
+**Download / clone the repository**
+
+**[Download this repository]**
+- Click the green `Code` button
+- Choose **Download Zip**
+- Extract the file zip
+
+**[Cloning this repositori] Open CMD and run:**
+```bash
+git clone https://github.com/lantas-bit/Auto-post
+cd Auto-post
+```
+
+**If you already download and extract the Zip file run this on cmd inside the extracted folder**
+
+**Install required packages**
+```bash
+pip install flask requests
+```
+
+**Run the bot**
+```bash
+python autopost.py
+```
+
+
+**Access the web controller**
+Open your browser and visit:
+
+```http://localhost:5000```
 
 # Screenshot
 ![Screenshot](screenshot.png)
