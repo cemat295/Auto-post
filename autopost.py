@@ -26,16 +26,47 @@ def save_config():
     with open(CONFIG_PATH, "w") as f:
         json.dump(config, f, indent=4)
 
-def send_log(message):
+def send_log(message, channel_id=None, success=True):
     if config["use_webhook"] and config["webhook_url"]:
         try:
-            requests.post(config["webhook_url"], json={
-                "embeds": [{
-                    "title": "AutoPost Log",
-                    "description": message,
-                    "color": 5814783
-                }]
-            })
+            now = time.strftime("%d %B %Y  %I:%M:%S %p")
+            embed = {
+                "title": "🎁 Auto Post Discord 🎁",
+                "description": "> **Details Info**",
+                "color": 65280 if success else 16711680,
+                "fields": [
+                    {
+                        "name": "🟢 Status Log",
+                        "value": "> Success" if success else "> Failed"
+                    },
+                    {
+                        "name": "🕴 Username",
+                        "value": "> <@me>"
+                    },
+                    {
+                        "name": "🕓 Date Time",
+                        "value": f"> {now}"
+                    },
+                    {
+                        "name": "📺 Channel Target",
+                        "value": f"> <#{channel_id}>" if channel_id else "> Unknown"
+                    },
+                    {
+                        "name": "✅ Status Message",
+                        "value": f"> {message}"
+                    }
+                ],
+                "image": {
+                    "url": "https://cdn.discordapp.com/attachments/1222659397477097572/1226427380985126922/image.png"
+                },
+                "footer": {
+                    "text": "Auto Post By Lantas Continental"
+                }
+            }
+
+            payload = {"embeds": [embed]}
+            requests.post(config["webhook_url"], json=payload)
+
         except Exception as e:
             print(f"[LOG ERROR] {e}")
 
