@@ -4,7 +4,7 @@ This project auto-posts messages to Discord channels with interval and optional 
 
 > Warning: This tool breaks Discord Terms of Service. Use at your own risk. I’m not responsible for any bans or consequences.
 
-
+[The Continental - Lua](https://discord.com/invite/M9cD8ZC5m8)
 
 ## Setup Instructions on termux
 
