@@ -103,29 +103,31 @@ def test_webhook():
     send_log("Test webhook log berhasil dikirim.")
     return redirect("/")
 
-def auto_post():
+def post_to_channel(ch):
     while posting_active:
-        for ch in config["channels"]:
-            if not posting_active:
-                break
-            try:
-                url = f"https://discord.com/api/v10/channels/{ch['id']}/messages"
-                headers = {
-                    "Authorization": config["token"].strip(),
-                    "Content-Type": "application/json"
-                }
-                data = {
-                    "content": ch["message"]
-                }
-                res = requests.post(url, headers=headers, json=data)
-                if res.status_code == 200 or res.status_code == 204:
-                    send_log(f"Pesan berhasil dikirim ke? <#{ch['id']}>.")
-                else:
-                    send_log(f"Gagal kontol kirim ke <#{ch['id']}>: [{res.status_code}] {res.text}")
-            except Exception as e:
-                send_log(f"Error kontol kirim ke <#{ch['id']}>: {e}")
-            time.sleep(ch["interval"])
-        time.sleep(1)
+        try:
+            url = f"https://discord.com/api/v10/channels/{ch['id']}/messages"
+            headers = {
+                "Authorization": config["token"].strip(),
+                "Content-Type": "application/json"
+            }
+            data = {
+                "content": ch["message"]
+            }
+            res = requests.post(url, headers=headers, json=data)
+            if res.status_code in [200, 204]:
+                send_log(f"Pesan berhasil dikirim ke <#{ch['id']}>.")
+            else:
+                send_log(f"Gagal kirim ke <#{ch['id']}>: [{res.status_code}] {res.text}")
+        except Exception as e:
+            send_log(f"Error kirim ke <#{ch['id']}>: {e}")
+        
+        time.sleep(ch["interval"])
+
+def auto_post():
+    for ch in config["channels"]:
+        threading.Thread(target=post_to_channel, args=(ch,), daemon=True).start()
+
 
 
 html_template = '''
