@@ -62,8 +62,7 @@ cd Auto-post
 ```
 
 
-
-**If you already download and extract the Zip file run this on cmd inside the extracted folder**
+_if you already download and extract the Zip file run this on cmd inside the extracted folder_
 
 **Install required packages**
 ```bash
