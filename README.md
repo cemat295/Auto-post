@@ -52,6 +52,10 @@ Download from:
 - Extract the file zip
 
 **[Cloning this repositori] Open CMD and run:**
+
+**Install git:**
+[Git](https://git-scm.com/downloads)
+
 ```bash
 git clone https://github.com/lantas-bit/Auto-post
 cd Auto-post
