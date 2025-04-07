@@ -61,6 +61,8 @@ git clone https://github.com/lantas-bit/Auto-post
 cd Auto-post
 ```
 
+
+
 **If you already download and extract the Zip file run this on cmd inside the extracted folder**
 
 **Install required packages**
