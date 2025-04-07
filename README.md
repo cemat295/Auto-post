@@ -60,7 +60,7 @@ Download from:
 git clone https://github.com/lantas-bit/Auto-post
 cd Auto-post
 ```
-
+**Before installing required packages on cmd or powershell read this:**
 
 _if you already download and extract the Zip file run this on cmd inside the extracted folder_
 
