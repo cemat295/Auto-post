@@ -36,28 +36,28 @@ def send_log(message, channel_id=None, success=True):
                 "color": 65280 if success else 16711680,
                 "fields": [
                     {
-                        "name": "🟢 Status Log",
+                        "name": "STATUS SENDING POST",
                         "value": "> Success" if success else "> Failed"
                     },
                     {
-                        "name": "🕴 Username",
+                        "name": "🕴 USERNAME",
                         "value": "> <@me>"
                     },
                     {
-                        "name": "🕓 Date Time",
+                        "name": "Date AUTO POST",
                         "value": f"> {now}"
                     },
                     {
-                        "name": "📺 Channel Target",
+                        "name": "📺 Channel POST",
                         "value": f"> <#{channel_id}>" if channel_id else "> Unknown"
                     },
                     {
-                        "name": "✅ Status Message",
-                        "value": f"> {message}"
+                        "name": "Status Message",
+                        "value": f"> {message}
                     }
                 ],
                 "image": {
-                    "url": "https://cdn.discordapp.com/attachments/1222659397477097572/1226427380985126922/image.png"
+                    "url": "https://cdn.discordapp.com/attachments/1359522410130309353/1362813712125268058/Screenshot_2025_0418_223422.png?ex=6803c2ac&is=6802712c&hm=2ff7fe9317e77b77979c9dadc48cd70cd961e4d3ecf9584fbcc4c6a3d44cb83b&"
                 },
                 "footer": {
                     "text": "Auto Post By Cemat Continental"
