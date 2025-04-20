@@ -31,12 +31,12 @@ def send_log(message, channel_id=None, success=True):
         try:
             now = time.strftime("%d %B %Y  %I:%M:%S %p")
             embed = {
-                "title": "🎁 Auto Post Discord 🎁",
+                "title": "Auto Post Discord",
                 "description": "> **Details Info**",
                 "color": 65280 if success else 16711680,
                 "fields": [
                     {
-                        "name": "🟢 Status Log",
+                        "name": "Status Log",
                         "value": "> Success" if success else "> Failed"
                     },
                     {
@@ -57,10 +57,10 @@ def send_log(message, channel_id=None, success=True):
                     }
                 ],
                 "image": {
-                    "url": "https://cdn.discordapp.com/attachments/1222659397477097572/1226427380985126922/image.png"
+                    "url": "https://cdn.discordapp.com/attachments/1359522410130309353/1362813712125268058/Screenshot_2025_0418_223422.png?ex=6803c2ac&is=6802712c&hm=2ff7fe9317e77b77979c9dadc48cd70cd961e4d3ecf9584fbcc4c6a3d44cb83b&"
                 },
                 "footer": {
-                    "text": "Auto Post By Lantas Continental"
+                    "text": "Auto Post By Cemat"
                 }
             }
 
