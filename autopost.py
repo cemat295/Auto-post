@@ -31,7 +31,7 @@ def send_log(message, channel_id=None, success=True):
         try:
             now = time.strftime("%d %B %Y  %I:%M:%S %p")
             embed = {
-                "title": "🎁 Auto Post Discord 🎁",
+                "title": "Auto Post Discord",
                 "description": "> **Details Info**",
                 "color": 65280 if success else 16711680,
                 "fields": [
@@ -60,7 +60,7 @@ def send_log(message, channel_id=None, success=True):
                     "url": "https://cdn.discordapp.com/attachments/1222659397477097572/1226427380985126922/image.png"
                 },
                 "footer": {
-                    "text": "Auto Post By Lantas Continental"
+                    "text": "Auto Post By Cemat Continental"
                 }
             }
 
